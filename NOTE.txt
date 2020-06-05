@@ -1,0 +1,214 @@
+CREATE FIRST APP WITH NODE
+--------------------------
+1-creéer server.js
+2- node server.js
+3- Dans le navigateur, la saisie de http://localhost:8080/     => Welcome to Node.js
+
+CREATION DE MODULE
+------------------
+1-creéer server.js
+2- creer le module evaluate.js
+3- faire l'importation dans server.js
+4- node server.js
+5- la saisie de http://localhost:8080/
+6- creer le module custom.js   pour voir une autre facon de creer les modules
+
+EVENTS & EVENT EMITTER
+----------------------
+1- Definir les objets evenement et emetteur d'evenement
+
+var events = require('events');
+var eventEmitter = new events.EventEmitter();
+
+2- Definir la fonction à appeler
+
+var myHandler2 = function () {
+    console.log('This is string')
+}
+
+3- Donner un nom à l'evenement et le lier à la fonction
+
+eventEmitter.on('event2', myHandler2);
+
+4- Appeler l'evenement par son nom
+
+eventEmitter.emit('event2');
+
+NB: la nommination de l'evenement, la definition de la fonction et la liaison des deux peuvent se faire  de maniere simultanée
+
+eventEmitter.on('event3', function () {
+    console.log('Welcome')
+});
+
+NB: Appel d'evenement avec parametre
+
+eventEmitter.on('event4', function (msg) {
+    console.log(msg)
+});
+
+eventEmitter.emit('event4', ' Je suis le paramètre du emit !');
+
+Tp: BUFFERS AND STREAM
+**********************
+La class Buffer est introduite dans node pour permettre à javascript de manipuler les données binary et stream
+
+Streams - Readable Writable and Piping
+**************************************
+Les types de steam:
+Readable - Stream duquel les données peuvent etre lues
+Writable - Stream dans lequel des données peuvent etre ecrites
+Duplex - Stream à la fois Readable et Writable
+Transform - Stream pouvant modifier ou transformer pendant leurs lectures ou ecritures
+
+
+FILE SYSTEM
+***********
+
+fs.open( filename, flags, mode, callback )
+
+FLAG	DESCRIPTION
+r	    To open file to read and throws exception if file doesn’t exists.
+r+	    Open file to read and write. Throws exception if file doesn’t exists.
+rs+	    Open file in synchronous mode to read and write.
+w	    Open file for writing. File is created if it doesn’t exists.
+wx	    It is same as ‘w’ but fails if path exists.
+w+	    Open file to read and write. File is created if it doesn’t exists.
+wx+	    It is same as ‘w+’ but fails if path exists.
+a	    Open file to append. File is created if it doesn’t exists.
+ax	    It is same as ‘a’ but fails if path exists.
+a+	    Open file for reading and appending. File is created if it doesn’t exists.
+ax+	    It is same as ‘a+’ but fails if path exists.
+
+Examples
+
+Exple1
+
+// Node.js program to demonstrate the     
+// fs.open() Method 
+   
+// Include the fs module 
+var fs = require('fs'); 
+  
+// Open file demo.txt in read mode 
+fs.open('demo.txt', 'r', function (err, f) { 
+  console.log('Saved!'); 
+}); 
+
+Exple2
+
+// Node.js program to demonstrate the     
+// fs.open() Method 
+   
+// Include the fs module 
+var fs = require('fs'); 
+  
+console.log("Open file!"); 
+  
+// To open file in write and read mode, 
+// create file if doesn't exists. 
+fs.open('demo.txt', 'w+', function (err, f) { 
+   if (err) { 
+      return console.error(err); 
+   } 
+   console.log(f); 
+   console.log("File opened!!");      
+}); 
+
+
+Rendering HTML as Response
+**************************
+
+Basic Routing 
+*************
+
+What is Express js
+******************
+npm init
+npm install express --save
+
+FIRST APP WITH Express
+**********************
+Se placer à la racine
+>NODEOVERVIEW
+npm install express-generator -g
+express --view=hbs Tp11_FirstAppWithExpress
+cd Tp11_FirstAppWithExpress
+
+Pour installer les package indispensables referencé dans package.json il faut exécuter la commande suivante:
+npm install
+
+npm start
+http://localhost:3000
+
+
+HOW TO CHANGE TEMPLATE
+**********************
+Se placer à la racine
+>NODEOVERVIEW
+(Plus besoin d'exécuter la commande suivante: npm install express-generator -g)
+Exceuter la commande suivante:
+express Tp12_ChangeTemplate
+cd Tp12_ChangeTemplate
+npm install
+
+Par defaut c'est le template jade qui est installé. donc il faut le desinstaller par la commande suivante:
+npm uninstall jade
+
+installer le template hbs
+npm install hbs
+
+Ouvrir app.js et changer les reference jade en hbs
+
+Dans le repertoire views changer les extensions en hbs
+
+
+CRUD MYSQL DATABASE
+*******************
+express --view=hbs Tp14_CRUD_MySQL
+cd Tp14_CRUD_MySQL
+npm install
+npm install mysql --save
+routes > products.js
+
+Single Multiple File Upload Express using Multer
+************************************************
+Implementation dans le projet Tp14_CRUD_MySQL
+npm install multer
+
+Creation de fichiers:
+> routes > blogs.js
+
+Create Complete RestFull API 
+****************************
+express --view=hbs Tp15_MENApi
+npm install
+npm install mysql --save
+npm install body-parser --save
+npm install cors --save
+---------------------------- Tp15_MENApi > app.js
+var cors = require('cors');
+app.use(cors());
+----------------------------
+Creation de nouveau fichier Tp15_MENApi > db.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

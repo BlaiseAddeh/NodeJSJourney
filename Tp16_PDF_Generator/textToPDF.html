@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Html To PDF</title>
+        <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <script src="jspdf.min.js"></script>
+
+        <script type="text/javascript">
+           function genPDF () {
+            
+            var doc = new jsPDF();
+
+            doc.text(20, 20, 'TEST MESSAGE');
+            doc.addPage();
+            doc.text(20, 20, 'TEST MESSAGE 2');
+            doc.save('Test.pdf');
+
+           }
+             
+
+        </script>
+    </head>
+
+    <body>
+        <h1>Text to PDF</h1>
+
+         <a href="javascript:genPDF()">Download PDF</a>
+
+    </body>
+</html>

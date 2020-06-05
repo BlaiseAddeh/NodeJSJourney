@@ -1,0 +1,77 @@
+<div class="container">
+    <h1>{{title}}</h1>
+
+   {{#if errors}}
+      
+      <div class="col-md-6">
+
+           {{#each errors}}
+           
+               <div class="alert alert-danger" role="alert">
+                    {{this.param}} &nbsp; {{this.msg}}
+                </div> 
+
+           {{/each}}
+
+      </div>
+        
+    {{/if}}
+
+    <div class="col-md-6">
+        <form action="/register" method="POST">
+
+             <div class="form-group">
+                <label for="yourusername">User Name</label>
+                <input type="text" class="form-control" 
+                    name="username" id="yourusername"
+                    placeholder="Enter your username">
+            </div>
+
+            <div class="form-group">
+                <label for="youremail">Email address</label>
+                <input type="email" class="form-control" 
+                    name="email" id="youremail"
+                    aria-describedby="emailHelp" 
+                    placeholder="Enter your email">
+                <small id="emailHelp" class="form-text text-muted">
+                    We'll never share your email with anyone else.
+                </small>
+            </div>
+
+            <div class="form-group">
+                <label for="yourPassword">Password</label>
+                <input type="password" class="form-control" 
+                    name="password" id="yourPassword"
+                    placeholder="Enter your password">        
+            </div>
+             <!--
+                    <div class="form-group">
+                        <label for="yourPasswordMatch">Re-Enter Password</label>
+                        <input type="password" class="form-control" 
+                            name="passwordMatch" id="yourPasswordMatch"
+                            placeholder="Re-Enter your password">        
+                    </div>
+             -->
+
+            <button type="submit" class="btn btn-primary">
+                Submit
+            </button>
+
+        </form>
+    </div>
+
+</div>
+
+<script>
+	$(document).ready(function () {
+		debugger;
+		$("li,a").removeAttr('class');
+         
+        $('#lnkprofile').addClass('nav-link');
+        $('#lnklogin').addClass('nav-link');        
+		$('#lnkhome').addClass('nav-link');
+        $('#lnklogout').addClass('nav-link');
+        
+		$('#lnkregister').addClass('nav-link active');
+	});
+</script>

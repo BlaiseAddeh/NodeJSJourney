@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Html To PDF</title>
+        <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <script src="jquery-1.7.1.min.js"></script>
+        <script src="jspdf.min.js"></script>
+
+        <script type="text/javascript">
+           function genPDF () {
+            
+                var doc = new jsPDF();
+
+                doc.fromHTML($('#testdiv').get(0),20,20, {
+                    'width':500
+                });
+
+                doc.save('Table.pdf');
+             
+           }
+             
+
+        </script>
+    </head>
+
+    <body>
+        <div class="container">
+            <h1>Html to PDF</h1>
+        </div>        
+
+        <div id="testdiv" class="container">
+
+            <h1>Detail Produit</h1>
+
+            <table class="table table-dark">
+                 <tr>
+                     <td style="background-color: chocolate;">ID</td>
+                     <td>2</td>
+                 </tr>
+                  <tr>
+                     <td style="background-color: chocolate;">NAME</td>
+                     <td>ANANAS</td>
+                 </tr>
+                  <tr>
+                     <td style="background-color: chocolate;">PRICE</td>
+                     <td>150</td>
+                 </tr>
+                 <tr>
+                     <td style="background-color: chocolate;">SKU</td>
+                     <td>AL012AA</td>
+                 </tr>
+            </table>
+         </div>
+        
+         <div class="container mt-4 mb-4">           
+            <a href="javascript:genPDF()">Download PDF</a>
+         </div> 
+
+
+        
+
+    </body>
+</html>

@@ -1,0 +1,59 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-1" style="text-align: right">
+        <input type="button" id="btnExport" value="Export to PDF" onclick="Export()" />
+    </div>
+    <div id="tblCustomers" class="container">
+
+        <h1>Detail Produit</h1>
+
+        <table class="table table-dark">
+             <tr>
+                 <td style="background-color: chocolate;">ID</td>
+                 <td>2</td>
+             </tr>
+              <tr>
+                 <td style="background-color: chocolate;">NAME</td>
+                 <td>ANANAS</td>
+             </tr>
+              <tr>
+                 <td style="background-color: chocolate;">PRICE</td>
+                 <td>150</td>
+             </tr>
+             <tr>
+                 <td style="background-color: chocolate;">SKU</td>
+                 <td>AL012AA</td>
+             </tr>
+        </table>
+     </div>
+    
+   
+    <!--
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    -->
+    <script type="text/javascript" src="pdfmake.min.js"></script>
+    <script type="text/javascript" src="html2canvas.min.js"></script>
+
+    <script type="text/javascript">
+        function Export() {
+            html2canvas(document.getElementById('tblCustomers'), {
+                onrendered: function (canvas) {
+                    var data = canvas.toDataURL();
+                    var docDefinition = {
+                        content: [{
+                            image: data,
+                            width: 500
+                        }]
+                    };
+                    pdfMake.createPdf(docDefinition).download("Table.pdf");
+                }
+            });
+        }
+    </script>
+</body>
+</html>

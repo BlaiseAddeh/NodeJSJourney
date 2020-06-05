@@ -1,0 +1,46 @@
+<style>
+   .backlk {
+        background-color: Crimson;  
+        border-radius: 5px;
+        color: white;
+        padding: .8em;
+        text-decoration: none;
+   }
+
+   .backlk:hover {
+    background-color: FireBrick;
+    color: White;
+    }
+</style>
+
+<div class="container">
+    <h2>{{title}}</h2>
+    <hr>
+ 
+    <div class="row">       
+       <div class="col-md-6">
+           <form action="/products/edit/{{product.id}}" method="POST">
+               <div class="form-group">
+                   <input type="text" name="name" 
+                   value="{{product.name}}"
+                   class="form-control" placeholder="Product Name">
+               </div>
+               <div class="form-group">
+                   <input type="text" name="sku" 
+                    value="{{product.sku}}"
+                   class="form-control" placeholder="SKU">
+               </div>
+                <div class="form-group">
+                   <input type="text" name="price" 
+                    value="{{product.price}}"
+                   class="form-control" placeholder="Price">
+               </div>
+               <div class="form-group">
+                   <button class="btn btn-info">Save Product</button>
+                   &nbsp; 
+                   <a href="/products" class="backlk">Cancel</a>
+               </div>
+           </form>
+       </div>
+    </div>
+</div>

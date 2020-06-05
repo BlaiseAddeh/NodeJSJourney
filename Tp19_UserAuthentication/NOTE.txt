@@ -1,0 +1,251 @@
+-----db.js 
+
+var mysql = require('mysql');
+
+var connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'p@ssw0rd#123',
+    database: 'meanapp',    
+});
+
+connection.connect(function (err) {
+    if(err) throw err;
+    console.log('connected !');
+})
+
+module.exports = connection;
+
+------------- routes > index.js
+
+var express = require('express');
+var router = express.Router();
+
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  res.render('index', { title: 'Registration' });
+});
+
+
+router.post('/register', function(req, res, next) {
+
+  res.render('index', { title: 'Registration complete' });
+});
+
+
+module.exports = router;
+
+------------- index.hbs
+
+<div class="container">
+    <h1>{{title}}</h1>
+
+    <div class="col-md-6">
+        <form action="/register" method="POST">
+             <div class="form-group">
+                <label for="yourusername">User Name</label>
+                <input type="text" class="form-control" name="username" id="yourusername" placeholder="Enter your username">
+            </div>
+            <div class="form-group">
+                <label for="youremail">Email address</label>
+                <input type="email" class="form-control" 
+                    name="email" id="youremail" aria-describedby="emailHelp" placeholder="Enter your email">
+                <small id="emailHelp" class="form-text text-muted"> We'll never share your email with anyone else. </small>
+            </div>
+            <div class="form-group">
+                <label for="yourPassword">Password</label>
+                <input type="password" class="form-control" name="password" id="yourPassword" placeholder="Enter your password">        
+            </div>
+             <div class="form-group">
+                <label for="yourPasswordMatch">Re-Enter Password</label>
+                <input type="password" class="form-control" name="passwordMatch" id="yourPasswordMatch" placeholder="Re-Enter your password">        
+            </div>
+
+            <button type="submit" class="btn btn-primary"> Submit </button>
+
+        </form>
+    </div>
+
+</div>
+
+
+Tp 2 ------------ Database Connection and Backend Validation
+
+
+npm install express-validatior --save-exact
+
+Tp 3 ---------------- HASHING Password
+
+npm install bcrypt --save
+
+Tp4 ---------------- INTRODUCTION AUX SESSIONS
+
+npm install express-session --save
+npm install passport --save
+
+
+
+
+Faire des configuration dans app.js
+
+// Authentication Packages
+var session = require('express-session');
+var passport = require('passport');
+
+
+// Allez en dessous de app.use(express.static(...))
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({
+  secret: 'iovdjdgdgdk',
+  resave: false,
+  saveUninitialized: false,
+ // cookie: { secure: true }
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+
+TP6-------------SESSION STORES AND RESTRICTING PAGE ACCESS - NODE AUTH TUT
+
+https://github.com/expressjs/session
+
+Allez sur https://www.npmjs.com/package/express-mysql-session
+
+Installer 
+
+npm install express-mysql-session --save
+
+******* Dans app.js, placer
+
+var MySQLStore = require('express-mysql-session')(session);
+
+......
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+var options = {
+  host: 'localhost',
+  user: 'root',
+  password: 'p@ssw0rd#123',
+  database: 'meanapp',    
+};
+
+var sessionStore = new MySQLStore(options);
+
+app.use(session({
+  secret: 'iovdjdgdgdk',
+  resave: false,
+  store: sessionStore,
+  saveUninitialized: false,
+ // cookie: { secure: true }
+}));
+....
+
+
+NB: Une fois l'application relancer, une nouvelle table nommée sessions devrait etre créée dans la base de données
+
+Si la table sessions n'est pas créée automatiquement, alors, créer la manuellement via le script suivant:
+
+CREATE TABLE IF NOT EXISTS `sessions` (
+  `session_id` varchar(128) COLLATE utf8mb4_bin NOT NULL,
+  `expires` int(11) unsigned NOT NULL,
+  `data` mediumtext COLLATE utf8mb4_bin,
+  PRIMARY KEY (`session_id`)
+) ENGINE=InnoDB
+
+Pour tester, enregistrer des données via le formulaire register et actualiser mysql pour voir les enregistrement dans la table sessions.
+
+Constat: Meme quand l'application est rafraichie, la session persiste dans la table sessions.
+
+
+TP7------------- CREATE LOGIN PAGE
+
+Le formulaire login.hbs
+
+<div class="container">
+    <h2>{{title}}</h2>
+
+     <div class="col-md-6">
+        <form action="/login" method="POST">
+
+             <div class="form-group">
+                <label for="yourusername">User Name</label>
+                <input type="text" class="form-control" 
+                    name="username" id="yourusername"
+                    placeholder="Enter your username">
+            </div>
+
+            <div class="form-group">
+                <label for="yourPassword">Password</label>
+                <input type="password" class="form-control" 
+                    name="password" id="yourPassword"
+                    placeholder="Enter your password">        
+            </div>           
+
+            <button type="submit" class="btn btn-primary">
+                Submit
+            </button>
+
+        </form>
+    </div>
+
+</div>
+
+***** -------------- Dans index.js
+
+router.post('/login', passport.authenticate('local', {
+  successRedirect: '/profile',
+  failureRedirect: '/login'
+}));
+
+******------------ Dans app.js
+
+npm install passport-local --save
+
+allez a http://passportjs.org/docs
+
+var LocalStrategy = require('passport-local').Strategy;
+
+.....
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    User.findOne({ username: username }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (!user.validPassword(password)) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    });
+  }
+));
+
+
+
+*********Tp8 - 8-Creating a Logout Button and Dynamic Header - Node Auth Tut - Part 8 - YouTube
+
+Dans app.js, avant l'utilisation de app.use de routage, on va mettre un middleware
+
+...
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(function (req, res, next) {
+  res.locals.isAuthenticated = req.isAuthenticated();
+  next();
+})
+
+
+
+
+
+
+
+
+
